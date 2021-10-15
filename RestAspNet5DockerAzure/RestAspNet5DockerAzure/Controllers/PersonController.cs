@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestAspNet5DockerAzure.Model;
-using RestAspNet5DockerAzure.Services;
+using RestAspNet5DockerAzure.Business;
+using RestAspNet5DockerAzure.Data.VO;
 
 namespace RestAspNet5DockerAzure.Controllers
 {
@@ -11,25 +11,25 @@ namespace RestAspNet5DockerAzure.Controllers
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
-        private IPersonService _personService;
+        private IPersonBusiness _personBussiness;
 
-        public PersonController(ILogger<PersonController> logger, IPersonService personService)
+        public PersonController(ILogger<PersonController> logger, IPersonBusiness personBusiness)
         {
             _logger = logger;
-            _personService = personService;
+            _personBussiness = personBusiness;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personBussiness.FindAll());
         }
 
 
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var person = _personService.FindByID(id);
+            var person = _personBussiness.FindByID(id);
             if (person == null) return NotFound();
             return Ok(person);
 
@@ -37,24 +37,24 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
-            return Ok(_personService.Create(person));
+            return Ok(_personBussiness.Create(person));
         }
 
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
-            return Ok(_personService.Update(person));
+            return Ok(_personBussiness.Update(person));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _personService.Delete(id);
+            _personBussiness.Delete(id);
             return NoContent();
 
         }

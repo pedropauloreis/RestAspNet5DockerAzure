@@ -29,6 +29,8 @@ namespace RestAspNet5DockerAzure.Data.VO
         [JsonPropertyName("launch_date")]
         [XmlElement("launch_date")]
         public DateTime LaunchDate { get; set; }
+
+        
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }

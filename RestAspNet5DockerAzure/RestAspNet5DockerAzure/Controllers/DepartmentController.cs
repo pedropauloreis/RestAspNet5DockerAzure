@@ -10,38 +10,38 @@ namespace RestAspNet5DockerAzure.Controllers
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class DepartmentController : ControllerBase
     {
-        private readonly ILogger<PersonController> _logger;
-        private IPersonBusiness _personBussiness;
+        private readonly ILogger<DepartmentController> _logger;
+        private IDepartmentBusiness _departmentBusiness;
 
-        public PersonController(ILogger<PersonController> logger, IPersonBusiness personBusiness)
+        public DepartmentController(ILogger<DepartmentController> logger, IDepartmentBusiness departmentBusiness)
         {
             _logger = logger;
-            _personBussiness = personBusiness;
+            _departmentBusiness = departmentBusiness;
         }
 
         [HttpGet]
-        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType((200), Type = typeof(List<DepartmentVO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
-            return Ok(_personBussiness.FindAll());
+            return Ok(_departmentBusiness.FindAll());
         }
 
 
         [HttpGet("{id}")]
-        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType((200), Type = typeof(DepartmentVO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
-            var person = _personBussiness.FindByID(id);
+            var person = _departmentBusiness.FindByID(id);
             if (person == null) return NotFound();
             return Ok(person);
 
@@ -49,29 +49,29 @@ namespace RestAspNet5DockerAzure.Controllers
 
    
         [HttpPost]
-        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType((200), Type = typeof(DepartmentVO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Post([FromBody] PersonVO person)
+        public IActionResult Post([FromBody] DepartmentVO department)
         {
-            if (person == null) return BadRequest();
-            return Ok(_personBussiness.Create(person));
+            if (department == null) return BadRequest();
+            return Ok(_departmentBusiness.Create(department));
         }
 
 
         [HttpPut]
-        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType((200), Type = typeof(DepartmentVO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Put([FromBody] PersonVO person)
+        public IActionResult Put([FromBody] DepartmentVO department)
         {
-            if (person == null) return BadRequest();
-            if (!_personBussiness.Exists(person.Id)) return BadRequest("Not found");
-            return Ok(_personBussiness.Update(person));
+            if (department == null) return BadRequest();
+            if (!_departmentBusiness.Exists(department.Id)) return BadRequest("Not found");
+            return Ok(_departmentBusiness.Update(department));
         }
 
         [HttpDelete("{id}")]
@@ -80,7 +80,7 @@ namespace RestAspNet5DockerAzure.Controllers
         [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
-            _personBussiness.Delete(id);
+            _departmentBusiness.Delete(id);
             return NoContent();
 
         }

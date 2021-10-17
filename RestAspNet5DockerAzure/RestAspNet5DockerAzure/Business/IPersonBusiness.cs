@@ -11,5 +11,9 @@ namespace RestAspNet5DockerAzure.Business
         PersonVO FindByID(long id);
         PersonVO Update(PersonVO person);
         void Delete(long id);
+
+        bool Exists(long id);
+
+        List<PersonVO> FindByName(string name);
     }
 }

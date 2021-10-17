@@ -1,5 +1,6 @@
 ﻿using RestAspNet5DockerAzure.Hypermedia;
 using RestAspNet5DockerAzure.Hypermedia.Abstract;
+using RestAspNet5DockerAzure.Model;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -28,6 +29,18 @@ namespace RestAspNet5DockerAzure.Data.VO
         [JsonPropertyName("gender")]
         [XmlElement("gender")]
         public string Gender { get; set; }
+
+
+        [JsonPropertyName("departmentid")]
+        [XmlElement("departmentid")]
+        public long DepartmentId { get; set; }
+
+
+        //[JsonIgnore]
+        [JsonPropertyName("department")]
+        [XmlElement("department")]
+        public DepartmentVO Department { get; set; }
+
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }

@@ -18,17 +18,17 @@ namespace RestAspNet5DockerAzure.Repository.Generic
             dataset = _context.Set<T>();
         }
 
-        public List<T> FindAll()
+        public virtual List<T> FindAll()
         {
             return dataset.ToList();
         }
 
-        public T FindByID(long id)
+        public virtual T FindByID(long id)
         {
             return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
 
-        public T Create(T item)
+        public virtual T Create(T item)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace RestAspNet5DockerAzure.Repository.Generic
             }
         }
 
-        public T Update(T item)
+        public virtual T Update(T item)
         {
             var result = dataset.SingleOrDefault(p => p.Id.Equals(item.Id));
             if (result != null)
@@ -66,7 +66,7 @@ namespace RestAspNet5DockerAzure.Repository.Generic
             }
         }
 
-        public void Delete(long id)
+        public virtual void Delete(long id)
         {
             var result = dataset.SingleOrDefault(p => p.Id.Equals(id));
             if (result != null)
@@ -84,7 +84,7 @@ namespace RestAspNet5DockerAzure.Repository.Generic
             }
         }
 
-        public bool Exists(long id)
+        public virtual bool Exists(long id)
         {
             return dataset.Any(p => p.Id.Equals(id));
         }

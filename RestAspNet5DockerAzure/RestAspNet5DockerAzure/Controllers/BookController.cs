@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RestAspNet5DockerAzure.Data.VO;
 using RestAspNet5DockerAzure.Business;
 using RestAspNet5DockerAzure.Hypermedia.Filters;
+using System.Collections.Generic;
 
 namespace RestAspNet5DockerAzure.Controllers
 {
@@ -21,6 +22,10 @@ namespace RestAspNet5DockerAzure.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<BookVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -29,6 +34,10 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(BookVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
@@ -40,6 +49,9 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpPost]
+        [ProducesResponseType((200), Type = typeof(BookVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] BookVO book)
         {
@@ -49,14 +61,21 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpPut]
+        [ProducesResponseType((200), Type = typeof(BookVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
+            if (!_bookBussiness.Exists(book.Id)) return BadRequest();
             return Ok(_bookBussiness.Update(book));
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _bookBussiness.Delete(id);

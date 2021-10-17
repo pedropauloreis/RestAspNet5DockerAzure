@@ -12,6 +12,9 @@ using RestAspNet5DockerAzure.Business.Implementations;
 using Serilog;
 using System.Collections.Generic;
 using RestAspNet5DockerAzure.Repository.Generic;
+using Microsoft.Net.Http.Headers;
+using RestAspNet5DockerAzure.Hypermedia.Filters;
+using RestAspNet5DockerAzure.Hypermedia.Enricher;
 
 namespace RestAspNet5DockerAzure
 {
@@ -35,25 +38,46 @@ namespace RestAspNet5DockerAzure
         {
             services.AddControllers();
 
+            //Database Context
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
+            services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
+            //Migration and DataSet Startup Support
             if (Environment.IsDevelopment())
             {
                 MigrateDatabase(connection);
             }
 
-            services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+            //Content Negotiation Support (Json and XML)
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            }).AddXmlSerializerFormatters();
+
+            //HATEOAS Support
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+            filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
+            services.AddSingleton(filterOptions);
+            
+            //Versioning Support
             services.AddApiVersioning();
+            
+            //Controllers Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
 
+            //Generic Repository Support
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+            //Swagger Support
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAspNet5DockerAzure", Version = "v1" });
             });
-
+            
 
 
 
@@ -68,6 +92,7 @@ namespace RestAspNet5DockerAzure
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAspNet5DockerAzure v1"));
+                
             }
 
             app.UseHttpsRedirection();
@@ -79,9 +104,13 @@ namespace RestAspNet5DockerAzure
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                //HETEOAS LinkBuilder Support
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/v{version=apiVersion}/{id?}");
             });
         }
 
+        //Execution of Migration and DataSet Seeders on Startup
         private void MigrateDatabase(string connection)
         {
             try

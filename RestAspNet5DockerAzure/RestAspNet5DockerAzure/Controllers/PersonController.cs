@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestAspNet5DockerAzure.Business;
 using RestAspNet5DockerAzure.Data.VO;
+using RestAspNet5DockerAzure.Hypermedia.Filters;
 
 namespace RestAspNet5DockerAzure.Controllers
 {
@@ -20,6 +21,7 @@ namespace RestAspNet5DockerAzure.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_personBussiness.FindAll());
@@ -27,6 +29,7 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
             var person = _personBussiness.FindByID(id);
@@ -37,6 +40,7 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -45,6 +49,7 @@ namespace RestAspNet5DockerAzure.Controllers
 
 
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();

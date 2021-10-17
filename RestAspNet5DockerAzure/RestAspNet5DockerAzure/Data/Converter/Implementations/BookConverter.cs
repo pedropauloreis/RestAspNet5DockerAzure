@@ -24,6 +24,7 @@ namespace RestAspNet5DockerAzure.Data.Converter.Implementations
         }
         public BookVO Parse(Book origin)
         {
+            if (origin == null) return null;
             return new BookVO
             {
                 Id = origin.Id,

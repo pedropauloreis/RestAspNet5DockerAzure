@@ -10,5 +10,7 @@ namespace RestAspNet5DockerAzure.Business
         BookVO FindByID(long id);
         BookVO Update(BookVO book);
         void Delete(long id);
+
+        bool Exists(long id);
     }
 }

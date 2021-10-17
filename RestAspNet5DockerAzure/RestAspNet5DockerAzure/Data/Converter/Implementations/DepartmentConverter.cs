@@ -8,53 +8,51 @@ using System.Threading.Tasks;
 
 namespace RestAspNet5DockerAzure.Data.Converter.Implementations
 {
-    public class BookConverter : IParser<BookVO, Book>, IParser<Book, BookVO>
+    public class DepartmentConverter : IParser<DepartmentVO, Department>, IParser<Department, DepartmentVO>
     {
-        public Book Parse(BookVO origin)
+        
+
+        public Department Parse(DepartmentVO origin)
         {
             if (origin == null) return null;
-            return new Book
+            return new Department
             {
                 Id = origin.Id,
-                Author = origin.Author,
-                LaunchDate = origin.LaunchDate,
-                Price = origin.Price,
-                Title = origin.Title,
+                Name = origin.Name,
+                
             };
         }
-        public BookVO Parse(Book origin)
+        public DepartmentVO Parse(Department origin)
         {
             if (origin == null) return null;
-            return new BookVO
+            return new DepartmentVO
             {
                 Id = origin.Id,
-                Author = origin.Author,
-                LaunchDate = origin.LaunchDate,
-                Price = origin.Price,
-                Title = origin.Title,
+                Name = origin.Name,
+                
             };
         }
 
-        public List<Book> Parse(List<BookVO> origin)
+        public List<Department> Parse(List<DepartmentVO> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }
 
-        public List<BookVO> Parse(List<Book> origin)
+        public List<DepartmentVO> Parse(List<Department> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }
 
 
-        public ICollection<BookVO> Parse(ICollection<Book> origin)
+        public ICollection<DepartmentVO> Parse(ICollection<Department> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }
 
-        public ICollection<Book> Parse(ICollection<BookVO> origin)
+        public ICollection<Department> Parse(ICollection<DepartmentVO> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();

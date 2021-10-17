@@ -1,9 +1,10 @@
 ﻿using RestAspNet5DockerAzure.Model.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestAspNet5DockerAzure.Model
 {
-    [Table("person")]
+    [Table("persons")]
     public class Person : BaseEntity
     {
         
@@ -18,6 +19,11 @@ namespace RestAspNet5DockerAzure.Model
 
         [Column("gender")]
         public string Gender { get; set; }
+
+        [ForeignKey("departmentid")]
+        public long DepartmentId { get; set; }
+        public Department Department { get; set; }
+
 
     }
 }

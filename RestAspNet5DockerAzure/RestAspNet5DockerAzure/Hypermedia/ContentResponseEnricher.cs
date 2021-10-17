@@ -26,7 +26,7 @@ namespace RestAspNet5DockerAzure.Hypermedia
         {
             if (response.Result is OkObjectResult okObjectResult)
             {
-                return CanEnrich(okObjectResult.Value.GetType());
+                return (okObjectResult.Value!=null && CanEnrich(okObjectResult.Value.GetType()));
             }
             return false;
         }

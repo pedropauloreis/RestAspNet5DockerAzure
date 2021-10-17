@@ -15,6 +15,8 @@ using RestAspNet5DockerAzure.Repository.Generic;
 using Microsoft.Net.Http.Headers;
 using RestAspNet5DockerAzure.Hypermedia.Filters;
 using RestAspNet5DockerAzure.Hypermedia.Enricher;
+using Microsoft.AspNetCore.Rewrite;
+using RestAspNet5DockerAzure.Repository;
 
 namespace RestAspNet5DockerAzure
 {
@@ -36,6 +38,21 @@ namespace RestAspNet5DockerAzure
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            //CORS Support
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                }
+                );
+            }
+
+            );
+
             services.AddControllers();
 
             //Database Context
@@ -58,24 +75,40 @@ namespace RestAspNet5DockerAzure
 
             //HATEOAS Support
             var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new DepartmentEnricher());
             filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
             filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
             services.AddSingleton(filterOptions);
             
             //Versioning Support
             services.AddApiVersioning();
-            
+
             //Controllers Injection
+            services.AddScoped<IDepartmentBusiness, DepartmentBusinessImplementation>();
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
 
             //Generic Repository Support
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+            //Custom Repository Support
+            services.AddScoped<IPersonRepository, PersonRepository>();
+
             //Swagger Support
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAspNet5DockerAzure", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "RestAspNet5DockerAzure", 
+                    Version = "v1" ,
+                    Description = "API RESTful Example",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Pedro Paulo de Oliveira Reis",
+                        Url = new Uri("https://github.com/pedropauloreis"),
+                        
+                    }
+                });
             });
             
 
@@ -92,12 +125,22 @@ namespace RestAspNet5DockerAzure
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAspNet5DockerAzure v1"));
+
+
+                //Redirect "/" root URL to "/swagger"
+                var option = new RewriteOptions();
+                option.AddRedirect("^$", "swagger");
+                app.UseRewriter(option);
                 
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //CORS Support
+            //Must be included after UseHttpsRedirection() and UseRouting(), and before UseEndpoints()
+            app.UseCors();
 
             app.UseAuthorization();
 

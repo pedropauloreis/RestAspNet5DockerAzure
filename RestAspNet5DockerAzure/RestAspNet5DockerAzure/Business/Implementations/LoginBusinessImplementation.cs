@@ -17,7 +17,7 @@ namespace RestAspNet5DockerAzure.Business.Implementations
         private IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly UserConverter _converter;
-        private readonly RoleConverter _converterRole;
+        //private readonly RoleConverter _converterRole;
 
         public LoginBusinessImplementation(TokenConfiguration configuration, IUserRepository userRepository, ITokenService tokenService)
         {

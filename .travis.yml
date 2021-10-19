@@ -16,8 +16,8 @@ deploy:
   script:
     docker tag rest-aspnet5-docker-azure:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure:$TRAVIS_JOB_ID;
     docker tag rest-aspnet5-docker-azure-db:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure-db:$TRAVIS_JOB_ID;
-    docker push $DOCKER_USERNAME/rest-aspnet5-docker-azure:$TRAVIS_JOB_ID;
-    docker push $DOCKER_USERNAME/rest-aspnet5-docker-azure-db:$TRAVIS_JOB_ID;
+    docker push $DOCKER_ID/rest-aspnet5-docker-azure:$TRAVIS_JOB_ID;
+    docker push $DOCKER_ID/rest-aspnet5-docker-azure-db:$TRAVIS_JOB_ID;
   on:
     branch: docker-hub
     

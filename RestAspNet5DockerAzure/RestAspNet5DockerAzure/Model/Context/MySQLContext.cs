@@ -17,6 +17,10 @@ namespace RestAspNet5DockerAzure.Model.Context
         public DbSet<Department> Departments { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        
 
     }
 }

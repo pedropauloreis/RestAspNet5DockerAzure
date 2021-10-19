@@ -9,7 +9,7 @@ namespace RestAspNet5DockerAzure.Repository.Generic
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private MySQLContext _context;
+        protected MySQLContext _context;
         private DbSet<T> dataset;
 
         public GenericRepository(MySQLContext context)
@@ -87,6 +87,28 @@ namespace RestAspNet5DockerAzure.Repository.Generic
         public virtual bool Exists(long id)
         {
             return dataset.Any(p => p.Id.Equals(id));
+        }
+
+        public List<T> ExecuteFromRaw(string query)
+        {
+            return dataset.FromSqlRaw<T>(query).ToList();
+        }
+
+        public int ExecuteScalar(string query)
+        {
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = query;
+                        result = command.ExecuteScalar().ToString();
+                    }
+                }
+            }
+            return int.Parse(result);
         }
     }
 }

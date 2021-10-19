@@ -4,12 +4,15 @@ using RestAspNet5DockerAzure.Data.VO;
 using RestAspNet5DockerAzure.Business;
 using RestAspNet5DockerAzure.Hypermedia.Filters;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestAspNet5DockerAzure.Controllers
 {
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
+    [Authorize("Bearer")]
+    [Authorize(Roles = "admin,superuser,user")]
     public class BookController : ControllerBase
     {
         private readonly ILogger<BookController> _logger;
@@ -53,6 +56,7 @@ namespace RestAspNet5DockerAzure.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [Authorize(Roles = "admin,superuser")]
         public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -65,6 +69,7 @@ namespace RestAspNet5DockerAzure.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [Authorize(Roles = "admin,superuser")]
         public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -76,6 +81,7 @@ namespace RestAspNet5DockerAzure.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = "admin,superuser")]
         public IActionResult Delete(long id)
         {
             _bookBussiness.Delete(id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestAspNet5DockerAzure.Business;
 using RestAspNet5DockerAzure.Data.VO;
@@ -10,6 +11,8 @@ namespace RestAspNet5DockerAzure.Controllers
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
+    [Authorize("Bearer")]
+    [Authorize(Roles = "admin,superuser")]
     public class DepartmentController : ControllerBase
     {
         private readonly ILogger<DepartmentController> _logger;

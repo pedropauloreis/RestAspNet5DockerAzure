@@ -8,7 +8,7 @@ namespace RestAspNet5DockerAzure.Model
     public class Book : BaseEntity
     {
 
-
+        
         [Column("author")]
         public string Author { get; set; }
 

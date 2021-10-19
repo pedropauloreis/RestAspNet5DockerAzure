@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RestAspNet5DockerAzure
 {
@@ -49,9 +51,12 @@ namespace RestAspNet5DockerAzure
         {
             //TOKEN CONFIGURATIONS
             var tokenConfigurations = new TokenConfiguration();
+            var uploadConfigurations = new UploadConfiguration();
             new ConfigureFromConfigurationOptions<TokenConfiguration>(Configuration.GetSection("TokenConfigurations")).Configure(tokenConfigurations);
-            
+            new ConfigureFromConfigurationOptions<UploadConfiguration>(Configuration.GetSection("UploadConfigurations")).Configure(uploadConfigurations);
+
             services.AddSingleton(tokenConfigurations);
+            services.AddSingleton(uploadConfigurations);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -132,6 +137,10 @@ namespace RestAspNet5DockerAzure
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped<IUserBusiness, UserBusinessImplementation>();
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+
+            //File Support Injection
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
 
 
             //Token Injection

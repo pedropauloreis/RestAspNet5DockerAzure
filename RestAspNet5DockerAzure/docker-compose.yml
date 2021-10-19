@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  db:
+    image: rest-aspnet5-docker-azure-db
+    command: mysqld --default-authentication-plugin=mysql_native_password --lower_case_table_names=1
+    restart: always
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: restaspnet5dockerazure
+    ports:
+      - 3308:3306
+    networks:
+      - restAspNet-network
+
+  rest-aspnet5-docker-azure:
+    image: rest-aspnet5-docker-azure
+    build:
+      context: .
+      dockerfile: RestAspNet5DockerAzure/Dockerfile
+    environment:
+      TZ: America/Sao_Paulo
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - 44300:80
+    depends_on:
+      - db
+    networks:
+      - restAspNet-network
+networks:
+  restAspNet-network:
+    driver: bridge
+

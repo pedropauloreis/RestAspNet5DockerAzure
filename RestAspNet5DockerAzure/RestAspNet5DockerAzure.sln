@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestAspNet5DockerAzure", "RestAspNet5DockerAzure\RestAspNet5DockerAzure.csproj", "{88CFE8B8-2BCC-483F-B35F-A681973B0818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestAspNet5DockerAzure", "RestAspNet5DockerAzure\RestAspNet5DockerAzure.csproj", "{88CFE8B8-2BCC-483F-B35F-A681973B0818}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EB6CB0DD-907D-4F56-B432-0F10611A8652}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{88CFE8B8-2BCC-483F-B35F-A681973B0818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +29,23 @@ Global
 		{88CFE8B8-2BCC-483F-B35F-A681973B0818}.Release|x64.Build.0 = Release|Any CPU
 		{88CFE8B8-2BCC-483F-B35F-A681973B0818}.Release|x86.ActiveCfg = Release|Any CPU
 		{88CFE8B8-2BCC-483F-B35F-A681973B0818}.Release|x86.Build.0 = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|x64.Build.0 = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Debug|x86.Build.0 = Debug|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|x64.Build.0 = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB6CB0DD-907D-4F56-B432-0F10611A8652}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE56C390-7293-4831-B745-62ABB54F81EF}
 	EndGlobalSection
 EndGlobal

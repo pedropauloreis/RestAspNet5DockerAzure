@@ -6,7 +6,7 @@ CREATE TABLE `persons` (
   `gender` varchar(1),
   `departmentid` bigint,
   PRIMARY KEY (`id`),
-  INDEX `departmentFK_idx` (`departmentid` ASC) VISIBLE,
+  INDEX `departmentFK_idx` (`departmentid` ASC),
   CONSTRAINT `departmentFK`
   FOREIGN KEY (`departmentid`)
   REFERENCES `departments` (`id`)

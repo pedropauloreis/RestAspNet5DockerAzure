@@ -7,15 +7,16 @@ services: docker
 before_install:
   - cd RestAspNet5DockerAzure/RestAspNet5DockerAzure
   - echo "We are in the right folder!"
-script:
-  - docker-compose build
+
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
+
 deploy:
   provider: script
   script:
-    docker tag rest-aspnet5-docker-azure:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure$TRAVIS_JOB_ID;
-    docker tag rest-aspnet5-docker-azure-db:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure-db$TRAVIS_JOB_ID;
+    docker-compose build
+    docker tag rest-aspnet5-docker-azure:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure:$TRAVIS_JOB_ID;
+    docker tag rest-aspnet5-docker-azure-db:latest $DOCKER_USERNAME/rest-aspnet5-docker-azure-db:$TRAVIS_JOB_ID;
     docker push $DOCKER_USERNAME/rest-aspnet5-docker-azure:$TRAVIS_JOB_ID;
     docker push $DOCKER_USERNAME/rest-aspnet5-docker-azure-db:$TRAVIS_JOB_ID;
   on:

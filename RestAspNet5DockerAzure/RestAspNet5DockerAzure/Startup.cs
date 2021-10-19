@@ -107,10 +107,10 @@ namespace RestAspNet5DockerAzure
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
             //Migration and DataSet Startup Support
-            if (Environment.IsDevelopment())
-            {
-                MigrateDatabase(connection);
-            }
+            //if (Environment.IsDevelopment())
+            //{
+            //    MigrateDatabase(connection);
+            //}
 
             //Content Negotiation Support (Json and XML)
             services.AddMvc(options =>

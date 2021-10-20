@@ -25,8 +25,8 @@ jobs:
       - name: Push to Azure Container registry
         run: |
           docker images
-          docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{github.run_id}}
-          docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{github.run_id}}
+          docker tag rest-aspnet5-docker-azure:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/rest-aspnet5-docker-azure:${{github.run_id}}
+          docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/rest-aspnet5-docker-azure:${{github.run_id}}
       
       - name: Login in Azure to Deployment
         uses: azure/login@v1
@@ -37,4 +37,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_SERVER }}
-          images:  ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{github.run_id}}
+          images:  ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/rest-aspnet5-docker-azure:${{github.run_id}}

@@ -158,7 +158,7 @@ namespace RestAspNet5DockerAzure
             {
                 c.SwaggerDoc("v1", new OpenApiInfo 
                 { 
-                    Title = "RestAspNet5DockerAzure", 
+                    Title = "RestAspNet5DockerAzure v1 - Azure View", 
                     Version = "v1" ,
                     Description = "API RESTful Example",
                     Contact = new OpenApiContact

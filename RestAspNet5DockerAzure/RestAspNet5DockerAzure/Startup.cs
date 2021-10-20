@@ -182,7 +182,7 @@ namespace RestAspNet5DockerAzure
             
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAspNet5DockerAzure v1 - Azure Version"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAspNet5DockerAzure v1 - Azure View"));
 
                 //Redirect "/" root URL to "/swagger"
                 var option = new RewriteOptions();

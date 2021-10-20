@@ -1,0 +1,46 @@
+name: Continuous Integration with Github Acrtions and Azure
+
+on:
+  push:
+    branches: [ docker-azure ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+
+      # Login against a Azure Container Registry
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          login-server: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
+
+      - name: Build Images
+        working-directory: ./RestAspNet5DockerAzure
+        run: docker-compose build
+
+      - name: Push to Azure Container Registry
+        run: |
+           docker tag ${{ secrets.IMAGE_NAME }}:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{ github.run_id }}
+           docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{ github.run_id }}
+
+      - name: Login to Azure Deployment
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Deployment on Azure Webbapp Container
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_SERVER }}
+          images: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{ github.run_id }}
